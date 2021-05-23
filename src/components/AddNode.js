@@ -23,12 +23,13 @@ export default function AddNode() {
       const formData = new FormData();
       formData.append('node_ip', NodeIp)
       formData.append('node_port', NodePort)
-      axios.post('http://localhost:8080/node', formData).then(res => {
-          const resp = JSON.parse(res)
+      axios.post('https://chia-node-list-api.vercel.app/node', formData).then(res => {
+          const resp = JSON.parse(JSON.stringify(res.data))
           if (resp.success) {
               setNodeIp('')
-              setNodePort(0)
+              setNodePort(8444)
               setAddNodeModal(!AddNodeModal)
+              
           }
       })
   }

@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import NodeTable from './components/NodeTable'
 import AddNode from './components/AddNode'
-import { MDBContainer, MDBBtn } from 'mdb-react-ui-kit';
+import { MDBContainer } from 'mdb-react-ui-kit';
 
 function App() {
   return (

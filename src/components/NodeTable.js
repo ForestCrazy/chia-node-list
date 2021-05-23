@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
-import axios from 'axios';
+import axios from "axios";
 
 export default function App() {
   const [nodeList, setNodeList] = useState([]);
-  axios.get('http://localhost:8080/node').then((res) => {
-            const Node = res.data;
-            setNodeList(JSON.parse(Node));
-          });
+  useEffect(() => {
+    axios.get('https://chia-node-list-api.vercel.app/node').then((res) => {
+          const Node = res.data;
+          setNodeList(JSON.parse(JSON.stringify(Node)));
+        });
+  }, [])
   return (
     <MDBTable className="caption-top">
       <caption>List of Chia Node</caption>
@@ -15,18 +17,22 @@ export default function App() {
         <tr className="table-dark">
           <th scope="col">IP</th>
           <th scope="col">Port</th>
-          <th scope="col">LastActiveTime</th>
+          <th scope="col">
+            LastActiveTime
+          </th>
         </tr>
       </MDBTableHead>
       <MDBTableBody>
-          {nodeList.map(node => {
-            <tr>
-          <th scope="row">{node.node_ip}</th>
-          <td>{node.node_port}</td>
-          <td>{new Date(node.last_active).toLocaleTimeString('en-US')}</td>
-        </tr>
-          })}
-        </MDBTableBody>
+        {Object.keys(nodeList).map((key, index) => {
+          return (<tr key={index}>
+            <th scope="row">{nodeList[key].node_ip}</th>
+            <td>{nodeList[key].node_port}</td>
+            <td>
+              {new Date(nodeList[key].last_active * 1000).toUTCString()}
+            </td>
+          </tr>)
+        })}
+      </MDBTableBody>
     </MDBTable>
   );
 }
