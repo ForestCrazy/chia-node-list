@@ -4,13 +4,10 @@ import axios from 'axios';
 
 export default function App() {
   const [nodeList, setNodeList] = useState([]);
-  const getNodeList = () => {
-    axios.get('https://chia-node-list-api.vercel.app/node').then((res) => {
+  axios.get('http://localhost:8080/node').then((res) => {
             const Node = res.data;
             setNodeList(JSON.parse(Node));
           });
-  }
-  setInterval(getNodeList, 60000)
   return (
     <MDBTable className="caption-top">
       <caption>List of Chia Node</caption>

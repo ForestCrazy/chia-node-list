@@ -10,6 +10,7 @@ import {
   MDBModalFooter,
 } from "mdb-react-ui-kit";
 import axios from 'axios'
+const FormData = require('form-data')
 
 export default function AddNode() {
   const [AddNodeModal, setAddNodeModal] = useState(false);
@@ -19,7 +20,10 @@ export default function AddNode() {
   const toggleAddNodeModal = () => setAddNodeModal(!AddNodeModal);
 
   const AddNode = () => {
-      axios.post('https://chia-node-list-api.vercel.app/node', { NodeIp, NodePort }).then(res => {
+      const formData = new FormData();
+      formData.append('node_ip', NodeIp)
+      formData.append('node_port', NodePort)
+      axios.post('http://localhost:8080/node', formData).then(res => {
           const resp = JSON.parse(res)
           if (resp.success) {
               setNodeIp('')
